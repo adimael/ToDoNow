@@ -6,7 +6,7 @@
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
-    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -23,22 +23,22 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" alignment="1" max="32767" attributes="0"/>
-          <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
+          <Component id="jPanelToolBar" alignment="1" max="32767" attributes="0"/>
+          <Component id="jPanelProject" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+              <Component id="jPanelToolBar" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel2" max="32767" attributes="0"/>
+              <Component id="jPanelProject" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="jPanel1">
+    <Container class="javax.swing.JPanel" name="jPanelToolBar">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="3a" green="c" red="4" type="rgb"/>
@@ -50,9 +50,9 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                  <Component id="jLabelProjects" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="jButtonProjectsAdd" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabelToolBarTitle" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="303" max="32767" attributes="0"/>
+                  <Component id="jButtonToolBarSave" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -62,8 +62,8 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jButtonProjectsAdd" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabelProjects" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonToolBarSave" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabelToolBarTitle" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="11" max="32767" attributes="0"/>
               </Group>
@@ -71,7 +71,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="jLabelProjects">
+        <Component class="javax.swing.JLabel" name="jLabelToolBarTitle">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="24" style="1"/>
@@ -82,7 +82,7 @@
             <Property name="text" type="java.lang.String" value="Projeto"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonProjectsAdd">
+        <Component class="javax.swing.JButton" name="jButtonToolBarSave">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="45" green="cd" red="58" type="rgb"/>
@@ -99,12 +99,12 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonProjectsAddActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonToolBarSaveActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="jPanel2">
+    <Container class="javax.swing.JPanel" name="jPanelProject">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" id="white" palette="1" red="ff" type="palette"/>
@@ -117,8 +117,8 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jTextField1" max="32767" attributes="0"/>
-                      <Component id="jScrollPane1" alignment="0" pref="539" max="32767" attributes="0"/>
+                      <Component id="jTextFieldName" max="32767" attributes="0"/>
+                      <Component id="jScrollPaneDescription" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -128,16 +128,16 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jTextField1" min="-2" pref="63" max="-2" attributes="0"/>
+                  <Component id="jTextFieldName" min="-2" pref="63" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" pref="216" max="32767" attributes="0"/>
+                  <Component id="jScrollPaneDescription" pref="216" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JTextField" name="jTextField1">
+        <Component class="javax.swing.JTextField" name="jTextFieldName">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="0"/>
@@ -151,14 +151,19 @@
             </Property>
           </Properties>
         </Component>
-        <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+        <Container class="javax.swing.JScrollPane" name="jScrollPaneDescription">
+          <Properties>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
+            </Property>
+          </Properties>
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
           </AuxValues>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTextArea" name="jTextArea1">
+            <Component class="javax.swing.JTextArea" name="jTextAreaDescription">
               <Properties>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">

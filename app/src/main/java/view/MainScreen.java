@@ -117,6 +117,7 @@ public class MainScreen extends javax.swing.JFrame {
 
         jButtonToolBarMenu.setBackground(new java.awt.Color(4, 12, 58));
         jButtonToolBarMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cardapio (2).png"))); // NOI18N
+        jButtonToolBarMenu.setBorder(null);
         jButtonToolBarMenu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout jPanelToolBarLayout = new javax.swing.GroupLayout(jPanelToolBar);
@@ -233,6 +234,8 @@ public class MainScreen extends javax.swing.JFrame {
 
         jPanelProjectList.setBackground(java.awt.Color.white);
 
+        jScrollPane1.setBorder(null);
+
         jListProjects.setBorder(null);
         jListProjects.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jListProjects.setModel(new javax.swing.AbstractListModel<String>() {
@@ -257,6 +260,8 @@ public class MainScreen extends javax.swing.JFrame {
         );
 
         jPanelTaskList.setBackground(java.awt.Color.white);
+
+        jScrollPane2.setBorder(null);
 
         jTableTasks.setBackground(new java.awt.Color(255, 255, 255));
         jTableTasks.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -340,6 +345,8 @@ public class MainScreen extends javax.swing.JFrame {
 
     private void jButtonProjectsAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProjectsAddActionPerformed
         // TODO add your handling code here:
+        ProjectDialogScreen projectDialogScreen = new ProjectDialogScreen(this, rootPaneCheckingEnabled);
+        projectDialogScreen.setVisible(true);
     }//GEN-LAST:event_jButtonProjectsAddActionPerformed
 
     private void jButtonTasksAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTasksAddActionPerformed

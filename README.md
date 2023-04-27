@@ -1,4 +1,4 @@
-<center><h1><img src="assets/img/icon/toDoNow.png" width="62" height="62">ToDoNow Gestão de tarefas</h1></center>
+<center><h1><img src="app/src/main/resources/toDoNow.png" width="62" height="62">ToDoNow Gestão de tarefas</h1></center>
 <center><h3>Tenha o controle das suas tarefas.</h3></center>
 
 <center><img src="assets/img/banner-ToDoNow.png" width="600" height="300"></center>

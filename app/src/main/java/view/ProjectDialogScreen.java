@@ -4,18 +4,25 @@
  */
 package view;
 
+import controller.ProjectController;
+import javax.swing.JOptionPane;
+import model.Project;
+
 /**
  *
  * @author adimael
  */
 public class ProjectDialogScreen extends javax.swing.JDialog {
-
+    
+    ProjectController controller;
     /**
      * Creates new form ProjectDialogScreen
      */
     public ProjectDialogScreen(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+        controller = new ProjectController();
     }
 
     /**
@@ -27,83 +34,85 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabelProjects = new javax.swing.JLabel();
-        jButtonProjectsAdd = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jPanelToolBar = new javax.swing.JPanel();
+        jLabelToolBarTitle = new javax.swing.JLabel();
+        jButtonToolBarSave = new javax.swing.JButton();
+        jPanelProject = new javax.swing.JPanel();
+        jTextFieldName = new javax.swing.JTextField();
+        jScrollPaneDescription = new javax.swing.JScrollPane();
+        jTextAreaDescription = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(4, 12, 58));
+        jPanelToolBar.setBackground(new java.awt.Color(4, 12, 58));
 
-        jLabelProjects.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabelProjects.setForeground(new java.awt.Color(10, 158, 254));
-        jLabelProjects.setText("Projeto");
+        jLabelToolBarTitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabelToolBarTitle.setForeground(new java.awt.Color(10, 158, 254));
+        jLabelToolBarTitle.setText("Projeto");
 
-        jButtonProjectsAdd.setBackground(new java.awt.Color(88, 205, 69));
-        jButtonProjectsAdd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButtonProjectsAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pencil (2).png"))); // NOI18N
-        jButtonProjectsAdd.setText("Cadastrar");
-        jButtonProjectsAdd.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButtonProjectsAdd.addActionListener(new java.awt.event.ActionListener() {
+        jButtonToolBarSave.setBackground(new java.awt.Color(88, 205, 69));
+        jButtonToolBarSave.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jButtonToolBarSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pencil (2).png"))); // NOI18N
+        jButtonToolBarSave.setText("Cadastrar");
+        jButtonToolBarSave.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonToolBarSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonProjectsAddActionPerformed(evt);
+                jButtonToolBarSaveActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelToolBarLayout = new javax.swing.GroupLayout(jPanelToolBar);
+        jPanelToolBar.setLayout(jPanelToolBarLayout);
+        jPanelToolBarLayout.setHorizontalGroup(
+            jPanelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelToolBarLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addComponent(jLabelProjects)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonProjectsAdd)
+                .addComponent(jLabelToolBarTitle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 303, Short.MAX_VALUE)
+                .addComponent(jButtonToolBarSave)
                 .addGap(21, 21, 21))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jPanelToolBarLayout.setVerticalGroup(
+            jPanelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelToolBarLayout.createSequentialGroup()
                 .addGap(38, 38, 38)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonProjectsAdd)
-                    .addComponent(jLabelProjects))
+                .addGroup(jPanelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonToolBarSave)
+                    .addComponent(jLabelToolBarTitle))
                 .addContainerGap(11, Short.MAX_VALUE))
         );
 
-        jPanel2.setBackground(java.awt.Color.white);
+        jPanelProject.setBackground(java.awt.Color.white);
 
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jTextField1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nome do projeto", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
+        jTextFieldName.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jTextFieldName.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nome do projeto", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jTextArea1.setRows(5);
-        jTextArea1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Descrição", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
-        jScrollPane1.setViewportView(jTextArea1);
+        jScrollPaneDescription.setBorder(null);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        jTextAreaDescription.setColumns(20);
+        jTextAreaDescription.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jTextAreaDescription.setRows(5);
+        jTextAreaDescription.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Descrição", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
+        jScrollPaneDescription.setViewportView(jTextAreaDescription);
+
+        javax.swing.GroupLayout jPanelProjectLayout = new javax.swing.GroupLayout(jPanelProject);
+        jPanelProject.setLayout(jPanelProjectLayout);
+        jPanelProjectLayout.setHorizontalGroup(
+            jPanelProjectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelProjectLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE))
+                .addGroup(jPanelProjectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextFieldName)
+                    .addComponent(jScrollPaneDescription))
                 .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        jPanelProjectLayout.setVerticalGroup(
+            jPanelProjectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelProjectLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
+                .addComponent(jScrollPaneDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
                 .addGap(18, 18, 18))
         );
 
@@ -111,23 +120,35 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelToolBar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelProject, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanelProject, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonProjectsAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProjectsAddActionPerformed
+    private void jButtonToolBarSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonToolBarSaveActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonProjectsAddActionPerformed
+        try {
+            Project project = new Project();
+            project.setName(jTextFieldName.getText());
+            project.setDescription(jTextAreaDescription.getText());
+            controller.save(project);
+            JOptionPane.showMessageDialog(rootPane, "Projeto salvo com sucesso!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
+        }
+ 
+        this.dispose();
+    }//GEN-LAST:event_jButtonToolBarSaveActionPerformed
 
     /**
      * @param args the command line arguments
@@ -140,7 +161,7 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Java swing".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -172,12 +193,12 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonProjectsAdd;
-    private javax.swing.JLabel jLabelProjects;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton jButtonToolBarSave;
+    private javax.swing.JLabel jLabelToolBarTitle;
+    private javax.swing.JPanel jPanelProject;
+    private javax.swing.JPanel jPanelToolBar;
+    private javax.swing.JScrollPane jScrollPaneDescription;
+    private javax.swing.JTextArea jTextAreaDescription;
+    private javax.swing.JTextField jTextFieldName;
     // End of variables declaration//GEN-END:variables
 }
