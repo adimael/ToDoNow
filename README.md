@@ -1,7 +1,8 @@
-<center><h1><img src="app/src/main/resources/toDoNow.png" width="62" height="62">ToDoNow Gestão de tarefas</h1></center>
-<center><h3>Tenha o controle das suas tarefas.</h3></center>
-
-<center><img src="assets/img/banner-ToDoNow.png" width="600" height="300"></center>
+<h1 align="center"><img src="app/src/main/resources/toDoNow.png" width="62" height="62">ToDoNow Gestão de tarefas</h1>
+<h3 align="center">Tenha o controle das suas tarefas.</h3>
+<p align="center">
+<img src="assets/img/banner-ToDoNow.png" width="600" height="300">
+</p>
 <br>
 <p>Definição do projeto desenvolvido no curso de Lógica de programação.</p>
 
@@ -52,12 +53,10 @@
 - Java
 - MySql 
 
-<center><img src="assets/img/doc_controller_table.png" width="400" height="600"></center>
+<p align="center"><img src="assets/img/doc_controller_table.png" width="400" height="600"></p>
 <br>
 <footer>
-<center>
-<p>
+<p align="center">
 Copyright © Scrybox.dev, 2023 by Adimael
 </p>
-</center>
 </footer>
