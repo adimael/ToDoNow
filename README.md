@@ -50,8 +50,10 @@
 - Deve ser possível filtrar as tarefas por tag;
 
 <h3>Tecnologias utilizadas:</h3>
-- Java
-- MySql 
+
+####
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
+![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 
 <p align="center"><img src="assets/img/doc_controller_table.png" width="400" height="600"></p>
 <br>

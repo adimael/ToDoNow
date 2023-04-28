@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 22-Abr-2023 às 22:49
--- Versão do servidor: 10.4.27-MariaDB
--- versão do PHP: 8.2.0
+-- Tempo de geração: 28/04/2023 às 21:40
+-- Versão do servidor: 10.4.28-MariaDB
+-- Versão do PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `projects`
+-- Estrutura para tabela `projects`
 --
 
 CREATE TABLE `projects` (
@@ -36,16 +36,17 @@ CREATE TABLE `projects` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `projects`
+-- Despejando dados para a tabela `projects`
 --
 
 INSERT INTO `projects` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'Teste projeto atualizado.', 'Atualizado descrição.', '2023-04-22 00:00:00', '2023-04-22 00:00:00');
+(1, 'Teste projeto atualizado.', 'Atualizado descrição.', '2023-04-22 00:00:00', '2023-04-22 00:00:00'),
+(3, 'Meu primeiro projeto', 'Meu primeiro projeto feito no ToDoNow.', '2023-04-27 00:00:00', '2023-04-27 00:00:00');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tasks`
+-- Estrutura para tabela `tasks`
 --
 
 CREATE TABLE `tasks` (
@@ -61,44 +62,51 @@ CREATE TABLE `tasks` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Despejando dados para a tabela `tasks`
+--
+
+INSERT INTO `tasks` (`id`, `idProject`, `name`, `description`, `completed`, `notes`, `deadline`, `created_at`, `updated_at`) VALUES
+(2, 3, 'Minha primeira tarefa do toDoNow', 'Descrição do que deve ser feito nesta tarefa.', 0, 'Notas da tarefa.', '2023-05-20', '2023-04-28 00:00:00', '2023-04-28 00:00:00');
+
+--
 -- Índices para tabelas despejadas
 --
 
 --
--- Índices para tabela `projects`
+-- Índices de tabela `projects`
 --
 ALTER TABLE `projects`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `tasks`
+-- Índices de tabela `tasks`
 --
 ALTER TABLE `tasks`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_projects` (`idProject`);
 
 --
--- AUTO_INCREMENT de tabelas despejadas
+-- AUTO_INCREMENT para tabelas despejadas
 --
 
 --
 -- AUTO_INCREMENT de tabela `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- Restrições para despejos de tabelas
+-- Restrições para tabelas despejadas
 --
 
 --
--- Limitadores para a tabela `tasks`
+-- Restrições para tabelas `tasks`
 --
 ALTER TABLE `tasks`
   ADD CONSTRAINT `fk_projects` FOREIGN KEY (`idProject`) REFERENCES `projects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

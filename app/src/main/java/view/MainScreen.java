@@ -205,6 +205,11 @@ public class MainScreen extends javax.swing.JFrame {
         jButtonTasksAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pencil (2).png"))); // NOI18N
         jButtonTasksAdd.setText("Criar");
         jButtonTasksAdd.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonTasksAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonTasksAddMouseClicked(evt);
+            }
+        });
         jButtonTasksAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonTasksAddActionPerformed(evt);
@@ -352,6 +357,13 @@ public class MainScreen extends javax.swing.JFrame {
     private void jButtonTasksAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTasksAddActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonTasksAddActionPerformed
+
+    private void jButtonTasksAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonTasksAddMouseClicked
+        // TODO add your handling code here:
+        TaskDialogScreen taskDialogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled);
+        //taskDialogScreen.setProject(null);
+        taskDialogScreen.setVisible(true);
+    }//GEN-LAST:event_jButtonTasksAddMouseClicked
 
     /**
      * @param args the command line arguments
