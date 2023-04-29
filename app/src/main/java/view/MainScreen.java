@@ -4,10 +4,17 @@
  */
 package view;
 
+import controller.ProjectController;
+import controller.TaskController;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.List;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import model.Project;
 
 /**
  *
@@ -15,12 +22,19 @@ import javax.swing.ImageIcon;
  */
 public class MainScreen extends javax.swing.JFrame {
 
+    ProjectController projectController;
+    TaskController taskController;
+    
+    DefaultListModel projectModel;
     /**
      * Creates new form MainScreen
      */
     public MainScreen() {
         initComponents();
         decorateTableTask();
+        
+        initDataController();
+        initComponentsModel();
         
          Image icon = new ImageIcon(this.getClass().getResource("/toDoNow-logo.png")).getImage();
          this.setIconImage(icon);
@@ -164,9 +178,9 @@ public class MainScreen extends javax.swing.JFrame {
         jButtonProjectsAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pencil (2).png"))); // NOI18N
         jButtonProjectsAdd.setText("Criar");
         jButtonProjectsAdd.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButtonProjectsAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonProjectsAddActionPerformed(evt);
+        jButtonProjectsAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonProjectsAddMouseClicked(evt);
             }
         });
 
@@ -177,8 +191,8 @@ public class MainScreen extends javax.swing.JFrame {
             .addGroup(jPanelProjectsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabelProjects)
-                .addGap(111, 111, 111)
-                .addComponent(jButtonProjectsAdd, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+                .addGap(63, 63, 63)
+                .addComponent(jButtonProjectsAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanelProjectsLayout.setVerticalGroup(
@@ -243,11 +257,6 @@ public class MainScreen extends javax.swing.JFrame {
 
         jListProjects.setBorder(null);
         jListProjects.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jListProjects.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jListProjects.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jListProjects.setFixedCellHeight(50);
         jListProjects.setSelectionBackground(new java.awt.Color(147, 69, 205));
@@ -257,7 +266,7 @@ public class MainScreen extends javax.swing.JFrame {
         jPanelProjectList.setLayout(jPanelProjectListLayout);
         jPanelProjectListLayout.setHorizontalGroup(
             jPanelProjectListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         jPanelProjectListLayout.setVerticalGroup(
             jPanelProjectListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -306,7 +315,7 @@ public class MainScreen extends javax.swing.JFrame {
         jPanelTaskList.setLayout(jPanelTaskListLayout);
         jPanelTaskListLayout.setHorizontalGroup(
             jPanelTaskListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 614, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
         );
         jPanelTaskListLayout.setVerticalGroup(
             jPanelTaskListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -348,12 +357,6 @@ public class MainScreen extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonProjectsAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProjectsAddActionPerformed
-        // TODO add your handling code here:
-        ProjectDialogScreen projectDialogScreen = new ProjectDialogScreen(this, rootPaneCheckingEnabled);
-        projectDialogScreen.setVisible(true);
-    }//GEN-LAST:event_jButtonProjectsAddActionPerformed
-
     private void jButtonTasksAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTasksAddActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonTasksAddActionPerformed
@@ -364,6 +367,18 @@ public class MainScreen extends javax.swing.JFrame {
         //taskDialogScreen.setProject(null);
         taskDialogScreen.setVisible(true);
     }//GEN-LAST:event_jButtonTasksAddMouseClicked
+
+    private void jButtonProjectsAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonProjectsAddMouseClicked
+        // TODO add your handling code here:
+        ProjectDialogScreen projectDialogScreen = new ProjectDialogScreen(this, rootPaneCheckingEnabled);
+        projectDialogScreen.setVisible(true);
+        
+        projectDialogScreen.addWindowListener(new WindowAdapter() {
+            public void windowClosed(WindowEvent e){
+                loadProjects();
+            }
+        });
+    }//GEN-LAST:event_jButtonProjectsAddMouseClicked
 
     /**
      * @param args the command line arguments
@@ -434,4 +449,30 @@ public class MainScreen extends javax.swing.JFrame {
         //Criando um sort automático para as colunas da table
         jTableTasks.setAutoCreateRowSorter(true);
     }
+    
+    public void initDataController(){
+        projectController = new ProjectController();
+        taskController = new TaskController();
+    }
+    
+    public void initComponentsModel(){
+        projectModel = new DefaultListModel();
+        loadProjects();
+    }
+    
+    public void loadProjects(){
+        List<Project> projects = projectController.getAll();
+        
+        projectModel.clear();
+        
+        for (int i = 0; i < projects.size(); i++) {
+            
+            Project project = projects.get(i);
+            
+            projectModel.addElement(project);
+            
+        }
+        jListProjects.setModel(projectModel);
+    }
+    
 }

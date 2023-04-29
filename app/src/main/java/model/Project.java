@@ -73,7 +73,7 @@ public class Project {
 
     @Override
     public String toString() {
-        return "Project{" + "id=" + id + ", name=" + name + ", description=" + description + ", created_at=" + created_at + ", updated_at=" + updated_at + '}';
+        return this.name;
     }
 
     public Object getUpdatedAt() {
