@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 28/04/2023 às 21:40
+-- Tempo de geração: 30/04/2023 às 19:53
 -- Versão do servidor: 10.4.28-MariaDB
 -- Versão do PHP: 8.2.4
 
@@ -40,8 +40,7 @@ CREATE TABLE `projects` (
 --
 
 INSERT INTO `projects` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'Teste projeto atualizado.', 'Atualizado descrição.', '2023-04-22 00:00:00', '2023-04-22 00:00:00'),
-(3, 'Meu primeiro projeto', 'Meu primeiro projeto feito no ToDoNow.', '2023-04-27 00:00:00', '2023-04-27 00:00:00');
+(1, 'ToDoNow (DEV)', 'Projeto de gestão de tarefas', '2023-04-30 00:00:00', '2023-04-30 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -66,7 +65,11 @@ CREATE TABLE `tasks` (
 --
 
 INSERT INTO `tasks` (`id`, `idProject`, `name`, `description`, `completed`, `notes`, `deadline`, `created_at`, `updated_at`) VALUES
-(2, 3, 'Minha primeira tarefa do toDoNow', 'Descrição do que deve ser feito nesta tarefa.', 0, 'Notas da tarefa.', '2023-05-20', '2023-04-28 00:00:00', '2023-04-28 00:00:00');
+(1, 1, 'Criação de conceito de tags', 'Implementar o conceito de Tags para que se possa atribuir tags a Tarefa.', 0, '', '2023-11-20', '2023-04-30 00:00:00', '2023-04-30 00:00:00'),
+(2, 1, 'Criação do conceito de conta e usuário', 'Implementação do conceito de Conta e Usuário. Para que mais usuários possam utilizar a aplicação.', 0, '', '2024-02-02', '2023-04-30 00:00:00', '2023-04-30 00:00:00'),
+(3, 1, 'Tela de Login', 'Construção de uma tela de Login (feita após a criação dos conceitos de conta e usuário).', 0, '', '2023-12-05', '2023-04-30 00:00:00', '2023-04-30 00:00:00'),
+(4, 1, 'Permitir a alteração dos dados da tarefa', 'Permitir que o usuário altere as informações complementares da Tarefa.', 0, '', '2023-10-28', '2023-04-30 00:00:00', '2023-04-30 00:00:00'),
+(5, 1, 'Permitir que o usuário delete um projeto', 'Permitir que o usuário delete um projeto completo.', 0, '', '2023-12-28', '2023-04-30 00:00:00', '2023-04-30 00:00:00');
 
 --
 -- Índices para tabelas despejadas
@@ -93,13 +96,13 @@ ALTER TABLE `tasks`
 -- AUTO_INCREMENT de tabela `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Restrições para tabelas despejadas
