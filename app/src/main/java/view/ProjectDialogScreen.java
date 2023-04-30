@@ -55,9 +55,9 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
         jButtonToolBarSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pencil (2).png"))); // NOI18N
         jButtonToolBarSave.setText("Cadastrar");
         jButtonToolBarSave.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButtonToolBarSave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonToolBarSaveActionPerformed(evt);
+        jButtonToolBarSave.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonToolBarSaveMouseClicked(evt);
             }
         });
 
@@ -135,20 +135,23 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonToolBarSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonToolBarSaveActionPerformed
+    private void jButtonToolBarSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonToolBarSaveMouseClicked
         // TODO add your handling code here:
         try {
-            Project project = new Project();
-            project.setName(jTextFieldName.getText());
-            project.setDescription(jTextAreaDescription.getText());
-            controller.save(project);
-            JOptionPane.showMessageDialog(rootPane, "Projeto salvo com sucesso!");
+            if(!jTextFieldName.getText().equals("")){
+                Project project = new Project();
+                project.setName(jTextFieldName.getText());
+                project.setDescription(jTextAreaDescription.getText());
+                controller.save(project);
+                JOptionPane.showMessageDialog(rootPane, "Projeto salvo com sucesso!");
+                this.dispose();
+            } else{
+                JOptionPane.showMessageDialog(rootPane, "Projeto não foi salvo, pois é preciso o preencimento do nome do projeto!");
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
         }
- 
-        this.dispose();
-    }//GEN-LAST:event_jButtonToolBarSaveActionPerformed
+    }//GEN-LAST:event_jButtonToolBarSaveMouseClicked
 
     /**
      * @param args the command line arguments

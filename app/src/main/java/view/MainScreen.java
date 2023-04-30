@@ -109,7 +109,7 @@ public class MainScreen extends javax.swing.JFrame {
         });
         jTableTasks.setGridColor(java.awt.Color.white);
         jTableTasks.setRowHeight(50);
-        jTableTasks.setSelectionBackground(new java.awt.Color(147, 69, 205));
+        jTableTasks.setSelectionBackground(new java.awt.Color(204, 161, 246));
         jTableTasks.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTableTasks.setShowHorizontalLines(true);
         jTableTasks.addMouseListener(new java.awt.event.MouseAdapter() {
