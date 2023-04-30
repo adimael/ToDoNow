@@ -16,6 +16,8 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import model.Project;
 import model.Task;
+import util.ButtonColumnCellRenderer;
+import util.DeadlineColumnCellRenderer;
 import util.TaskTableModel;
 
 /**
@@ -34,10 +36,11 @@ public class MainScreen extends javax.swing.JFrame {
      */
     public MainScreen() {
         initComponents();
-        decorateTableTask();
         
         initDataController();
         initComponentsModel();
+        
+        decorateTableTask();
         
          Image icon = new ImageIcon(this.getClass().getResource("/toDoNow-logo.png")).getImage();
          this.setIconImage(icon);
@@ -77,7 +80,7 @@ public class MainScreen extends javax.swing.JFrame {
         jScrollPaneTasks.setBorder(null);
 
         jTableTasks.setBackground(new java.awt.Color(255, 255, 255));
-        jTableTasks.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jTableTasks.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         jTableTasks.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -493,6 +496,10 @@ public class MainScreen extends javax.swing.JFrame {
         jTableTasks.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 18));
         jTableTasks.getTableHeader().setBackground(new Color(147, 69, 205));
         jTableTasks.getTableHeader().setForeground(new Color(255, 255, 255));
+        
+        jTableTasks.getColumnModel().getColumn(2).setCellRenderer(new DeadlineColumnCellRenderer());
+        jTableTasks.getColumnModel().getColumn(4).setCellRenderer(new ButtonColumnCellRenderer("pencil (2)"));
+        jTableTasks.getColumnModel().getColumn(5).setCellRenderer(new ButtonColumnCellRenderer("delete"));
         
         //Criando um sort automático para as colunas da table
         jTableTasks.setAutoCreateRowSorter(true);
