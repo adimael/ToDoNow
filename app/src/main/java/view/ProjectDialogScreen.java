@@ -21,7 +21,7 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
     public ProjectDialogScreen(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+        hideErrorFields();
         controller = new ProjectController();
     }
 
@@ -41,6 +41,7 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
         jTextFieldName = new javax.swing.JTextField();
         jScrollPaneDescription = new javax.swing.JScrollPane();
         jTextAreaDescription = new javax.swing.JTextArea();
+        jLabelNameError = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -95,6 +96,10 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
         jTextAreaDescription.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Descrição", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
         jScrollPaneDescription.setViewportView(jTextAreaDescription);
 
+        jLabelNameError.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelNameError.setForeground(new java.awt.Color(255, 51, 51));
+        jLabelNameError.setText("*Campo \"Nome do projeto\" obrigatório!");
+
         javax.swing.GroupLayout jPanelProjectLayout = new javax.swing.GroupLayout(jPanelProject);
         jPanelProject.setLayout(jPanelProjectLayout);
         jPanelProjectLayout.setHorizontalGroup(
@@ -102,8 +107,11 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
             .addGroup(jPanelProjectLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelProjectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldName)
-                    .addComponent(jScrollPaneDescription))
+                    .addComponent(jTextFieldName, javax.swing.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
+                    .addComponent(jScrollPaneDescription)
+                    .addGroup(jPanelProjectLayout.createSequentialGroup()
+                        .addComponent(jLabelNameError)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanelProjectLayout.setVerticalGroup(
@@ -111,9 +119,10 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
             .addGroup(jPanelProjectLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(jLabelNameError)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPaneDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
-                .addGap(18, 18, 18))
+                .addComponent(jScrollPaneDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -138,7 +147,7 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
     private void jButtonToolBarSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonToolBarSaveMouseClicked
         // TODO add your handling code here:
         try {
-            if(!jTextFieldName.getText().equals("")){
+            if(isFieldsValid()){
                 Project project = new Project();
                 project.setName(jTextFieldName.getText());
                 project.setDescription(jTextAreaDescription.getText());
@@ -146,7 +155,10 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(rootPane, "Projeto salvo com sucesso!");
                 this.dispose();
             } else{
-                JOptionPane.showMessageDialog(rootPane, "Projeto não foi salvo, pois é preciso o preencimento do nome do projeto!");
+                hideErrorFields();
+                if(jTextFieldName.getText().isEmpty()){
+                    jLabelNameError.setVisible(true);
+                }
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
@@ -197,6 +209,7 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonToolBarSave;
+    private javax.swing.JLabel jLabelNameError;
     private javax.swing.JLabel jLabelToolBarTitle;
     private javax.swing.JPanel jPanelProject;
     private javax.swing.JPanel jPanelToolBar;
@@ -204,4 +217,11 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
     private javax.swing.JTextArea jTextAreaDescription;
     private javax.swing.JTextField jTextFieldName;
     // End of variables declaration//GEN-END:variables
+
+    public void hideErrorFields(){
+        jLabelNameError.setVisible(false);
+    }
+    public boolean isFieldsValid(){
+        return (!jTextFieldName.getText().isEmpty());
+    }
 }
