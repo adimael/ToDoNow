@@ -8,9 +8,12 @@ import controller.TaskController;
 import java.sql.Connection;
 import java.util.Date;
 import java.util.List;
+import javax.swing.SwingUtilities;
 import model.Project;
 import model.Task;
 import util.ConnectionFactory;
+import view.MainScreen;
+import view.LoginScreen;
 
 public class App {
     public String getGreeting() {
@@ -18,6 +21,17 @@ public class App {
     }
 
     public static void main(String[] args) {
+        
+        // Abre a interface gráfica na Event Dispatch Thread
+        SwingUtilities.invokeLater(() -> {
+            LoginScreen login = new LoginScreen(null);
+            boolean logged = login.showLoginDialog();
+            if (logged) {
+                new MainScreen().setVisible(true);
+            } else {
+                System.exit(0);
+            }
+        });
         
         ProjectController projectController = new ProjectController();
         

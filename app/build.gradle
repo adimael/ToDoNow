@@ -9,6 +9,7 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 repositories {
@@ -18,23 +19,39 @@ repositories {
 
 dependencies {
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
-    implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.13'
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.33'
 
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:31.1-jre'
-
-    
+    implementation 'org.mindrot:jbcrypt:0.4'
 }
 
 application {
     // Define the main class for the application.
-    mainClass = 'ToDoNow.App'
+    mainClass = 'Main.App'
 }
 
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+jar {
+    manifest {
+        attributes(
+            'Main-Class': 'Main.App'
+        )
+    }
+}
+
+shadowJar {
+    archiveBaseName.set('app-fat')
+    archiveClassifier.set('')
+    archiveVersion.set('')
+    manifest {
+        attributes 'Main-Class': 'Main.App'
+    }
 }

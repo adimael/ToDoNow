@@ -9,6 +9,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
+import java.io.FileInputStream;
 
 /**
  *
@@ -16,16 +18,37 @@ import java.sql.SQLException;
  */
 public class ConnectionFactory {
     
-    public static final String DRIVER = "com.mysql.jdbc.Driver";
-    public static final String URL = "jdbc:mysql://localhost:3306/todonow";
-    public static final String USER = "root";
-    public static final String PASS = "";
+    public static final String DRIVER = "com.mysql.cj.jdbc.Driver";
+    // Remover bloco static que define valores padrão de URL, USER, PASS
     
-    public static java.sql.Connection getConnection() {
+    public static Connection getConnection() {
         try {
-            Class.forName(DRIVER);
-            return DriverManager.getConnection(URL, USER, PASS);
-        } catch (ClassNotFoundException | SQLException ex) {
+            Properties props = new Properties();
+            java.io.File configFile = new java.io.File("config.properties");
+            String url = null;
+            String user = null;
+            String pass = null;
+            if (configFile.exists()) {
+                props.load(new FileInputStream(configFile));
+                url = props.getProperty("db.url");
+                user = props.getProperty("db.user");
+                pass = props.getProperty("db.pass");
+                // Se algum campo estiver vazio, não conecta!
+                if (url == null || url.isBlank() || user == null || user.isBlank() || pass == null) {
+                    throw new RuntimeException("Configuração do banco de dados incompleta. Preencha todos os campos na tela de configuração.");
+                }
+            } else {
+                // Se não existe, não conecta!
+                throw new RuntimeException("Arquivo config.properties não encontrado. Configure o banco de dados.");
+            }
+            System.out.println("Tentando conectar ao banco de dados...");
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(url, user, pass);
+            System.out.println("Conexão estabelecida com sucesso!");
+            return conn;
+        } catch (Exception ex) {
+            System.out.println("Erro ao conectar ao banco de dados: " + ex.getMessage());
+            ex.printStackTrace();
             throw new RuntimeException("Erro na conexão com o banco de dados", ex);
         }
     }

@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import model.Task;
+import javax.swing.JCheckBox;
 
 /**
  *
@@ -26,11 +27,17 @@ public class DeadlineColumnCellRenderer extends DefaultTableCellRenderer {
         
         TaskTableModel taskModel = (TaskTableModel) table.getModel();
         Task task = taskModel.getTasks().get(row);
-        
-        if(task.getDeadline().after(new Date())){
+
+        if (col == 3 && task.getCompleted()) {
             label.setBackground(Color.GREEN);
-        } else{
-            label.setBackground(Color.red);
+        } else if(col == 2) {
+            if(task.getDeadline().after(new Date())){
+                label.setBackground(Color.GREEN);
+            } else{
+                label.setBackground(Color.red);
+            }
+        } else {
+            label.setBackground(Color.WHITE);
         }
         
         return label;

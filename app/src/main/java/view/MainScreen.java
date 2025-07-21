@@ -19,6 +19,16 @@ import model.Task;
 import util.ButtonColumnCellRenderer;
 import util.DeadlineColumnCellRenderer;
 import util.TaskTableModel;
+import util.CompletedColumnCellRenderer;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import java.io.File;
+import view.LoginScreen;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+import java.awt.Window;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -62,9 +72,49 @@ public class MainScreen extends javax.swing.JFrame {
         jLabelToolBarSubTitle = new javax.swing.JLabel();
         jLabelToolBarFrase = new javax.swing.JLabel();
         jButtonToolBarMenu = new javax.swing.JButton();
+        jButtonLogout = new javax.swing.JButton("Sair");
+        jButtonLogout.setBackground(new java.awt.Color(220, 53, 69));
+        jButtonLogout.setForeground(Color.WHITE);
+        jButtonLogout.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        jButtonLogout.setFocusPainted(false);
+        jButtonLogout.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 16, 8, 16));
+        jButtonLogout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonLogout.addActionListener(e -> {
+            System.out.println("Botão Sair clicado!");
+            new File("user_autologin.txt").delete();
+            try {
+                // Limpar token do banco
+                String usuario = null;
+                if (LoginScreen.class.getDeclaredField("usuarioLogado") != null) {
+                    usuario = (String) LoginScreen.class.getDeclaredField("usuarioLogado").get(null);
+                }
+                if (usuario != null) {
+                    new controller.UserController().limparTokenAutologin(usuario);
+                }
+            } catch (Exception ex) {
+                System.out.println("Erro ao limpar token de autologin no logout: " + ex.getMessage());
+            }
+            // Fechar completamente a aplicação e reiniciar
+            this.dispose();
+            // Forçar fechamento e reiniciar
+            SwingUtilities.invokeLater(() -> {
+                try {
+                    // Tentar fechar todas as janelas
+                    for (Window window : Window.getWindows()) {
+                        window.dispose();
+                    }
+                    // Abrir nova tela de login
+                    new view.LoginScreen(null).showLoginDialog();
+                } catch (Exception ex) {
+                    // Se falhar, usar System.exit
+                    System.exit(0);
+                }
+            });
+        });
         jPanelProjects = new javax.swing.JPanel();
         jLabelProjects = new javax.swing.JLabel();
         jButtonProjectsAdd = new javax.swing.JButton();
+        jButtonProjectsDelete = new javax.swing.JButton();
         jPanelTasks = new javax.swing.JPanel();
         jLabelTasks = new javax.swing.JLabel();
         jButtonTasksAdd = new javax.swing.JButton();
@@ -158,23 +208,24 @@ public class MainScreen extends javax.swing.JFrame {
                                 .addGap(6, 6, 6)
                                 .addComponent(jLabelToolBarSubTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonToolBarMenu)))
+                                .addComponent(jButtonToolBarMenu)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonLogout)))
                         .addContainerGap())
                     .addComponent(jLabelToolBarTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanelToolBarLayout.setVerticalGroup(
             jPanelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelToolBarLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelToolBarTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelToolBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelToolBarLayout.createSequentialGroup()
-                        .addComponent(jLabelToolBarTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelToolBarSubTitle))
-                    .addComponent(jButtonToolBarMenu, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jLabelToolBarSubTitle)
+                    .addComponent(jButtonToolBarMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelToolBarFrase)
-                .addGap(37, 37, 37))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jPanelProjects.setBackground(java.awt.Color.white);
@@ -194,6 +245,16 @@ public class MainScreen extends javax.swing.JFrame {
             }
         });
 
+        jButtonProjectsDelete.setBackground(new java.awt.Color(255, 51, 51));
+        jButtonProjectsDelete.setFont(new java.awt.Font("Segoe UI", 0, 14));
+        jButtonProjectsDelete.setText("Deletar");
+        jButtonProjectsDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonProjectsDelete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonProjectsDeleteMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelProjectsLayout = new javax.swing.GroupLayout(jPanelProjects);
         jPanelProjects.setLayout(jPanelProjectsLayout);
         jPanelProjectsLayout.setHorizontalGroup(
@@ -201,20 +262,21 @@ public class MainScreen extends javax.swing.JFrame {
             .addGroup(jPanelProjectsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabelProjects)
-                .addGap(63, 63, 63)
-                .addComponent(jButtonProjectsAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(20, 20, 20)
+                .addComponent(jButtonProjectsAdd)
+                .addGap(20, 20, 20)
+                .addComponent(jButtonProjectsDelete)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelProjectsLayout.setVerticalGroup(
             jPanelProjectsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelProjectsLayout.createSequentialGroup()
-                .addContainerGap(25, Short.MAX_VALUE)
-                .addComponent(jLabelProjects)
-                .addGap(13, 13, 13))
             .addGroup(jPanelProjectsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButtonProjectsAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(jPanelProjectsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelProjects)
+                    .addComponent(jButtonProjectsAdd)
+                    .addComponent(jButtonProjectsDelete))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanelTasks.setBackground(java.awt.Color.white);
@@ -229,11 +291,6 @@ public class MainScreen extends javax.swing.JFrame {
         jButtonTasksAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pencil (2).png"))); // NOI18N
         jButtonTasksAdd.setText("Criar");
         jButtonTasksAdd.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButtonTasksAdd.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButtonTasksAddMouseClicked(evt);
-            }
-        });
         jButtonTasksAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonTasksAddActionPerformed(evt);
@@ -367,21 +424,26 @@ public class MainScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonTasksAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTasksAddActionPerformed
-        // TODO add your handling code here:
+        // Chamar o mesmo método do clique do mouse para garantir abertura do formulário
+        jButtonTasksAddMouseClicked(null);
     }//GEN-LAST:event_jButtonTasksAddActionPerformed
 
     private void jButtonTasksAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonTasksAddMouseClicked
         // TODO add your handling code here:
-        TaskDialogScreen taskDialogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled);
         int projectIndex = jListProjects.getSelectedIndex();
+        if (projectIndex == -1) {
+            JOptionPane.showMessageDialog(this, "Selecione um projeto antes de adicionar uma tarefa.");
+            return;
+        }
+        TaskDialogScreen taskDialogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled);
         Project project = (Project) projectsModel.get(projectIndex);
         taskDialogScreen.setProject(project);
-        //taskDialogScreen.setProject(null);
         taskDialogScreen.setVisible(true);
         
         taskDialogScreen.addWindowListener(new WindowAdapter() {
             public void windowClosed(WindowEvent e){
                 int projectIndex = jListProjects.getSelectedIndex();
+                if (projectIndex == -1) return;
                 Project project = (Project) projectsModel.get(projectIndex);
                 loadTasks(project.getId());
             }
@@ -400,6 +462,21 @@ public class MainScreen extends javax.swing.JFrame {
         });
     }//GEN-LAST:event_jButtonProjectsAddMouseClicked
 
+    private void jButtonProjectsDeleteMouseClicked(java.awt.event.MouseEvent evt) {
+        int selectedIndex = jListProjects.getSelectedIndex();
+        if (selectedIndex != -1) {
+            Project project = (Project) projectsModel.get(selectedIndex);
+            int confirm = javax.swing.JOptionPane.showConfirmDialog(this, "Deseja realmente deletar o projeto '" + project.getName() + "'?", "Confirmar exclusão", javax.swing.JOptionPane.YES_NO_OPTION);
+            if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+                projectController.removeById(project.getId());
+                loadProjects();
+                taskModel.setTasks(new java.util.ArrayList<>());
+            }
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Selecione um projeto para deletar.");
+        }
+    }
+
     private void jTableTasksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableTasksMouseClicked
         // TODO add your handling code here:
         int rowIndex = jTableTasks.rowAtPoint(evt.getPoint());
@@ -411,6 +488,19 @@ public class MainScreen extends javax.swing.JFrame {
                 taskController.update(task);
                 break;
             case 4:
+                TaskDialogScreen editDialog = new TaskDialogScreen(this, true);
+                int projectIndexEdit = jListProjects.getSelectedIndex();
+                Project projectEdit = (Project) projectsModel.get(projectIndexEdit);
+                editDialog.setProject(projectEdit);
+                editDialog.setTask(task);
+                editDialog.setVisible(true);
+                editDialog.addWindowListener(new WindowAdapter() {
+                    public void windowClosed(WindowEvent e){
+                        int projectIndex = jListProjects.getSelectedIndex();
+                        Project project = (Project) projectsModel.get(projectIndex);
+                        loadTasks(project.getId());
+                    }
+                });
                 break;
             case 5:
                 taskController.removeById(task.getId());
@@ -468,8 +558,10 @@ public class MainScreen extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonProjectsAdd;
+    private javax.swing.JButton jButtonProjectsDelete;
     private javax.swing.JButton jButtonTasksAdd;
     private javax.swing.JButton jButtonToolBarMenu;
+    private javax.swing.JButton jButtonLogout;
     private javax.swing.JLabel jLabelProjects;
     private javax.swing.JLabel jLabelTaskListIcon;
     private javax.swing.JLabel jLabelTaskListSubTitle;
@@ -498,6 +590,7 @@ public class MainScreen extends javax.swing.JFrame {
         jTableTasks.getTableHeader().setForeground(new Color(255, 255, 255));
         
         jTableTasks.getColumnModel().getColumn(2).setCellRenderer(new DeadlineColumnCellRenderer());
+        jTableTasks.getColumnModel().getColumn(3).setCellRenderer(new CompletedColumnCellRenderer());
         jTableTasks.getColumnModel().getColumn(4).setCellRenderer(new ButtonColumnCellRenderer("pencil (2)"));
         jTableTasks.getColumnModel().getColumn(5).setCellRenderer(new ButtonColumnCellRenderer("delete"));
         

@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import model.Project;
 import model.Task;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -19,6 +20,7 @@ public class TaskDialogScreen extends javax.swing.JDialog {
     
     TaskController controller;
     Project project;
+    Task taskEdit = null;
 
     /**
      * Creates new form TaskDialogScreen
@@ -26,6 +28,14 @@ public class TaskDialogScreen extends javax.swing.JDialog {
     public TaskDialogScreen(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        try {
+            MaskFormatter dateMask = new MaskFormatter("##/##/####");
+            dateMask.setPlaceholderCharacter('_');
+            dateMask.setValidCharacters("0123456789");
+            jFormattedTextFieldDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(dateMask));
+        } catch (Exception e) {
+            // fallback: não faz nada
+        }
         hideErrorFields();
         controller = new TaskController();
     }
@@ -65,7 +75,7 @@ public class TaskDialogScreen extends javax.swing.JDialog {
         jButtonToolBarAdd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButtonToolBarAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pencil (2).png"))); // NOI18N
         jButtonToolBarAdd.setText("Cadastrar");
-        jButtonToolBarAdd.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonToolBarAdd.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jButtonToolBarAdd.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButtonToolBarAddMouseClicked(evt);
@@ -117,7 +127,6 @@ public class TaskDialogScreen extends javax.swing.JDialog {
         jScrollPaneDescription.setViewportView(jTextAreaDescription);
 
         jFormattedTextFieldDate.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Prazo", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
-        jFormattedTextFieldDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
         jFormattedTextFieldDate.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         jLabelDeadlineError.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -200,23 +209,31 @@ public class TaskDialogScreen extends javax.swing.JDialog {
     }//GEN-LAST:event_jTextFieldNameActionPerformed
 
     private void jButtonToolBarAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonToolBarAddMouseClicked
-        // TODO add your handling code here:
         try {
             if(isFieldsValid()){
-                Task task = new Task();
-                task.setIdProject(project.getId());
-                task.setName(jTextFieldName.getText());
-                task.setDescription(jTextAreaDescription.getText());
-                task.setNotes(jTextAreaNote.getText());
-                task.setCompleted(false);
-
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                Date deadline = null;
-
-                deadline = dateFormat.parse(jFormattedTextFieldDate.getText());
-                task.setDeadline(deadline);
-                controller.save(task);
-                JOptionPane.showMessageDialog(rootPane, "Tarefa salva com sucesso! ");
+                Date deadline = dateFormat.parse(jFormattedTextFieldDate.getText());
+                if (taskEdit != null) {
+                    // Edição
+                    taskEdit.setIdProject(project.getId());
+                    taskEdit.setName(jTextFieldName.getText());
+                    taskEdit.setDescription(jTextAreaDescription.getText());
+                    taskEdit.setNotes(jTextAreaNote.getText());
+                    taskEdit.setDeadline(deadline);
+                    controller.update(taskEdit);
+                    JOptionPane.showMessageDialog(rootPane, "Tarefa editada com sucesso! ");
+                } else {
+                    // Cadastro
+                    Task task = new Task();
+                    task.setIdProject(project.getId());
+                    task.setName(jTextFieldName.getText());
+                    task.setDescription(jTextAreaDescription.getText());
+                    task.setNotes(jTextAreaNote.getText());
+                    task.setCompleted(false);
+                    task.setDeadline(deadline);
+                    controller.save(task);
+                    JOptionPane.showMessageDialog(rootPane, "Tarefa salva com sucesso! ");
+                }
                 this.dispose();
             } else{
                 hideErrorFields();
@@ -227,7 +244,6 @@ public class TaskDialogScreen extends javax.swing.JDialog {
                     jLabelDeadlineError.setVisible(true);
                 }
             }
-            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
         }
@@ -301,5 +317,21 @@ public class TaskDialogScreen extends javax.swing.JDialog {
     
     public boolean isFieldsValid(){
         return (!jTextFieldName.getText().isEmpty()) && (!jFormattedTextFieldDate.getText().isEmpty());
+    }
+
+    void setTask(Task task) {
+        this.taskEdit = task;
+        this.jTextFieldName.setText(task.getName());
+        this.jTextAreaDescription.setText(task.getDescription());
+        this.jTextAreaNote.setText(task.getNotes());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        if (task.getDeadline() != null) {
+            this.jFormattedTextFieldDate.setText(dateFormat.format(task.getDeadline()));
+        } else {
+            this.jFormattedTextFieldDate.setText("");
+        }
+        this.project = new Project();
+        this.project.setId(task.getIdProject());
+        jButtonToolBarAdd.setText("Editar");
     }
 }
